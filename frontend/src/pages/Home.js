@@ -4,7 +4,7 @@ import { ReactComponent as Header } from '../assets/header.svg';
 
 const Home = () => {
     return (
-        <div onClick={() => n('/123')}>123123</div>
+        <div onClick={() => n('/123')}>404 not found</div>
     );
 };
 export default Home;
