@@ -37,6 +37,14 @@ body {
     left: 0;
     height: 21.5px;
 }
+.id {
+    position: absolute;
+    top: 56px;
+    left: -2px;
+    color: #292929;
+    font-family: 'MotivaSansRegular', sans-serif;
+    font-size: 17px;
+}
 .content {
     text-align: center;
 
@@ -45,23 +53,13 @@ body {
         font-size: 32px;
         color: #fff;
     }
-    &__browse {
-        margin-top: 25px;
-        font-family: 'MotivaSansRegular', sans-serif;
-        font-size: 17px;
-        color: #007acc;
-        min-width: 380px;
-        padding: 10px 20px;
-        background-color: #161616;
-        border-radius: 16px;
-    }
     &__size {
         margin-top: 8px;
         color: #292929;
         font-family: 'MotivaSansRegular', sans-serif;
         font-size: 17px;
     }
-    &__upload {
+    &__download {
         margin-top: 16px;
         font-family: 'MotivaSansRegular', sans-serif;
         font-size: 17px;
@@ -73,8 +71,4 @@ body {
         margin-left: 50%;
         transform: translateX(-50%);
     }
-}
-
-.highlight {
-    color: #007acc;
 }
