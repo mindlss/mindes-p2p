@@ -6,8 +6,7 @@ import toast, { Toaster } from 'react-hot-toast';
 const copy = async (value) => {
     try {
         await navigator.clipboard.writeText(value);
-    }
-    catch (err) {
+    } catch (err) {
         toast.error('Something went wrong.', {
             position: 'bottom-center',
             id: 'clipboard',
@@ -23,7 +22,7 @@ const copy = async (value) => {
 const Share = () => {
     const n = useNavigate();
     const { id } = useParams();
-    const link = `https://p2p.mindes.ru/${id}`
+    const link = `https://p2p.mindes.ru/${id}`;
     return (
         <motion.div
             className={styles.container}
@@ -47,13 +46,17 @@ const Share = () => {
                     },
                 }}
             />
-            <div className={styles.id}>ID: {id}</div>
+            <div className={styles.id} onClick={() => copy(id)}>
+                ID: {id}
+            </div>
             <div className={styles.content}>
                 <div className={styles.content__header}>
                     <span className={styles.highlight}>Link</span> to your file
                 </div>
-                <div className={styles.content__browse}
-                onClick={() => copy(link)}>
+                <div
+                    className={styles.content__browse}
+                    onClick={() => copy(link)}
+                >
                     {link}
                 </div>
                 <div className={styles.content__size}>Size: 345mb</div>

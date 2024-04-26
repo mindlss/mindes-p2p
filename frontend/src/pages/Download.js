@@ -6,8 +6,7 @@ import toast, { Toaster } from 'react-hot-toast';
 const copy = async (value) => {
     try {
         await navigator.clipboard.writeText(value);
-    }
-    catch (err) {
+    } catch (err) {
         toast.error('Something went wrong.', {
             position: 'bottom-center',
             id: 'clipboard',
@@ -46,7 +45,9 @@ const Download = () => {
                     },
                 }}
             />
-            <div className={styles.id} onClick={() =>copy(id)}>ID: {id}</div>
+            <div className={styles.id} onClick={() => copy(id)}>
+                ID: {id}
+            </div>
             <div className={styles.content}>
                 <div className={styles.content__header}>test.txt</div>
                 <div className={styles.content__size}>Size: 345mb</div>

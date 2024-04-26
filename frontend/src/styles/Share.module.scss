@@ -19,6 +19,13 @@
     color: #292929;
     font-family: 'MotivaSansRegular', sans-serif;
     font-size: 17px;
+    transition: all linear 90ms;
+    &:hover {
+        color: #007acc;
+    }
+    &:active {
+        color: #005d9b;
+    }
 }
 .content {
     text-align: center;
@@ -32,11 +39,18 @@
         margin-top: 25px;
         font-family: 'MotivaSansRegular', sans-serif;
         font-size: 17px;
-        color: #007acc;
-        min-width: 380px;
-        padding: 10px 20px;
+        color: #fff;
+        min-width: 300px;
+        padding: 10px 30px;
         background-color: #161616;
         border-radius: 16px;
+        transition: all linear 90ms;
+        &:hover {
+            color: #007acc;
+        }
+        &:active {
+            color: #005d9b;
+        }
     }
     &__size {
         margin-top: 8px;
