@@ -1,22 +1,29 @@
 import { useNavigate } from 'react-router-dom';
 import styles from '../styles/NotFound.module.scss';
-import { ReactComponent as Logo } from '../assets/logo.svg';
+import { motion } from 'framer-motion';
 
 const NotFound = () => {
     const n = useNavigate();
     return (
-        <div className={styles.container}>
-            <Logo className={styles.logo} />
+        <motion.div
+            className={styles.container}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+        >
             <div className={styles.content}>
                 <div className={styles.content__header}>
                     Maybe you’re <span className={styles.highlight}>lost</span>?
                 </div>
-                <div className={styles.content__size}>Page you’re looking for is not found.</div>
-                <div className={styles.content__upload}>Take me home</div>
-                {/* <div onClick={() => n(`/123`)}>123</div>
-                <div onClick={() => n(`/share/123`)}>share</div> */}
+                <div className={styles.content__size}>
+                    Page you’re looking for is not found.
+                </div>
+                <div className={styles.content__upload} onClick={() => n(`/`)}>
+                    Take me home
+                </div>
             </div>
-        </div>
+        </motion.div>
     );
 };
 export default NotFound;

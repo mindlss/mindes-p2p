@@ -1,12 +1,17 @@
 import { useNavigate } from 'react-router-dom';
 import styles from '../styles/Home.module.scss';
-import { ReactComponent as Logo } from '../assets/logo.svg';
+import { motion } from 'framer-motion';
 
 const Home = () => {
     const n = useNavigate();
     return (
-        <div className={styles.container}>
-            <Logo className={styles.logo} />
+        <motion.div
+            className={styles.container}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+        >
             <div className={styles.content}>
                 <div className={styles.content__header}>
                     Choose your <span className={styles.highlight}>file</span>{' '}
@@ -18,7 +23,7 @@ const Home = () => {
                 {/* <div onClick={() => n(`/123`)}>123</div>
                 <div onClick={() => n(`/share/123`)}>share</div> */}
             </div>
-        </div>
+        </motion.div>
     );
 };
 export default Home;
