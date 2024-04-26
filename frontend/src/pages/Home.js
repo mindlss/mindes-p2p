@@ -10,7 +10,7 @@ const Home = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
+            transition={{ duration: 0.2, ease: 'easeInOut' }}
         >
             <div className={styles.content}>
                 <div className={styles.content__header}>
@@ -20,8 +20,6 @@ const Home = () => {
                 <div className={styles.content__browse}>Browse</div>
                 <div className={styles.content__size}>Size: 345mb</div>
                 <div className={styles.content__upload}>Upload</div>
-                {/* <div onClick={() => n(`/123`)}>123</div>
-                <div onClick={() => n(`/share/123`)}>share</div> */}
             </div>
         </motion.div>
     );
