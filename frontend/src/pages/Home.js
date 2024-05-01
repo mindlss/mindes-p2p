@@ -48,9 +48,7 @@ const Home = () => {
                     {filename ? filename : 'Browse'}
                 </div>
                 <div className={styles.content__size}>Size: {filesize}mb</div>
-                <div className={styles.content__upload} >
-                    Upload
-                </div>
+                <div className={styles.content__upload}>Upload</div>
                 <input
                     type="file"
                     id="file"
