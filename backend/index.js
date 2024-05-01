@@ -16,7 +16,9 @@ app.use(cors());
 app.use(jsonParser);
 
 const appRoute = require('./routes/App');
+const apiRoute = require('./routes/Api');
 
 app.use('/', appRoute);
+app.use('/api/', apiRoute);
 
 app.listen(process.env.APP_PORT, () => console.log(`${domain} started on port ${process.env.APP_PORT}`));
