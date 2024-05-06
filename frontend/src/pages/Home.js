@@ -1,9 +1,35 @@
 import { useNavigate } from 'react-router-dom';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import styles from '../styles/Home.module.scss';
 import { motion } from 'framer-motion';
+import WebSocket from 'websocket';
 
 const Home = () => {
+    const ws = useRef(null);
+
+    useEffect(() => {
+        ws.current = new WebSocket.w3cwebsocket('ws://localhost:3001');
+
+        ws.current.onopen = () => {
+            console.log('Connected to server');
+        };
+
+        ws.current.onmessage = (event) => {
+            console.log(`Received message: ${event.data}`);
+            if (event.data === 'Send file') {
+                console.log('Send file');
+            }
+        };
+
+        ws.current.onclose = () => {
+            console.log('Disconnected from server');
+        };
+
+        return () => {
+            ws.current.close();
+        };
+    }, []);
+
     const n = useNavigate();
     const [filename, setFilename] = useState('');
     const [filesize, setFilesize] = useState(0);
