@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import styles from '../styles/Share.module.scss';
 import { motion } from 'framer-motion';
 import toast, { Toaster } from 'react-hot-toast';
@@ -20,7 +20,6 @@ const copy = async (value) => {
 };
 
 const Share = () => {
-    const n = useNavigate();
     const { id } = useParams();
     const link = `https://p2p.mindes.ru/${id}`;
     return (
