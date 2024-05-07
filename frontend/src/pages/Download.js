@@ -1,8 +1,11 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useState } from 'react';
 import styles from '../styles/Download.module.scss';
 import { motion } from 'framer-motion';
 import toast, { Toaster } from 'react-hot-toast';
+import streamSaver from 'streamsaver';
+
+import Peer from 'peerjs';
 
 const copy = async (value) => {
     try {
@@ -21,7 +24,52 @@ const copy = async (value) => {
 };
 
 const Download = () => {
-    const n = useNavigate();
+    const { id } = useParams();
+    const [downloading, setDownloading] = useState(false);
+    const [progress, setProgress] = useState(0);
+
+    const downloadFile = (e) => {
+        setDownloading(true);
+        const peer = new Peer({
+            config: { iceServers: [{ urls: 'stun:localhost:3478' }] },
+        });
+
+        let fileSize = 0;
+        let receivedBytes = 0;
+        let fileName = '';
+        let fileType = '';
+
+        peer.on('open', () => {
+            const conn = peer.connect(id);
+            conn.on('open', () => {
+                console.log('hi from peer!');
+                const fileStream = streamSaver.createWriteStream('lab1.docx');
+                const writer = fileStream.getWriter();
+                conn.on('data', async (data) => {
+                    if (data.type === 'file-info') {
+                        const fileInfo = JSON.parse(data.data);
+                        fileSize = fileInfo.size;
+                        fileName = fileInfo.name;
+                        fileType = fileInfo.type;
+                        receivedBytes = 0;
+
+                        console.log(fileSize);
+                        console.log(fileName);
+                        console.log(fileType);
+                    } else if (data.type === 'file-chunk') {
+                        await writer.write(data.chunk);
+                        receivedBytes += data.chunk.byteLength;
+                        setProgress((receivedBytes / fileSize) * 100);
+                        if (receivedBytes === fileSize) {
+                            await writer.close();
+                            console.log('done');
+                            setDownloading(false);
+                        }
+                    }
+                });
+            });
+        });
+    };
 
     return (
         <motion.div
@@ -52,7 +100,16 @@ const Download = () => {
             <div className={styles.content}>
                 <div className={styles.content__header}>test.txt</div>
                 <div className={styles.content__size}>Size: 345mb</div>
-                <div className={styles.content__download}>Download</div>
+                <div
+                    className={`${styles.content__download} ${
+                        downloading ? styles.downloading : ''
+                    }`}
+                    onClick={() => downloadFile()}
+                >
+                    {downloading
+                        ? `Downloading... ${progress.toFixed(2)}%`
+                        : 'Download'}
+                </div>
             </div>
         </motion.div>
     );

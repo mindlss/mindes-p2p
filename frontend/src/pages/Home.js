@@ -1,8 +1,9 @@
-import { useNavigate } from 'react-router-dom';
 import { useRef, useState, useEffect } from 'react';
 import styles from '../styles/Home.module.scss';
 import { motion } from 'framer-motion';
 import WebSocket from 'websocket';
+
+import Peer from 'peerjs';
 
 const Home = () => {
     const ws = useRef(null);
@@ -30,7 +31,7 @@ const Home = () => {
         };
     }, []);
 
-    const n = useNavigate();
+    const [file, setFile] = useState(null);
     const [filename, setFilename] = useState('');
     const [filesize, setFilesize] = useState(0);
     const inputFile = useRef(null);
@@ -49,9 +50,72 @@ const Home = () => {
             } else {
                 filesize = Math.round(filesize);
             }
+            setFile(files[0]);
             setFilename(filename);
             setFilesize(filesize);
         }
+    };
+
+    const readFileChunks = (file, chunkSize, callback) => {
+        var offset = 0;
+        var fr = new FileReader();
+
+        const readNextChunk = () => {
+            var slice = file.slice(offset, offset + chunkSize);
+            fr.readAsArrayBuffer(slice);
+        };
+
+        fr.onload = function () {
+            var chunk = fr.result;
+            callback(chunk);
+            offset += chunkSize;
+            if (offset < file.size) {
+                readNextChunk();
+            }
+        };
+        fr.onerror = function () {
+            console.error('Error reading file');
+        };
+        readNextChunk();
+    };
+
+    const uploadFile = (e) => {
+        if (file === null) return;
+
+        console.log('button pressed');
+
+        const fileInfo = {
+            name: filename,
+            type: file.type,
+            size: file.size,
+        };
+
+        const peer = new Peer({
+            config: { iceServers: [{ urls: 'stun:localhost:3478' }] },
+        });
+
+        peer.on('error', (err) => {
+            console.log('Server error:', err);
+        });
+
+        peer.on('open', () => {
+            console.log('Server ID:', peer.id);
+        });
+        peer.on('connection', (conn) => {
+            console.log('peer connected');
+            conn.on('open', () => {
+                console.log('connection open');
+                //fiel send chunks
+                conn.send({
+                    data: JSON.stringify(fileInfo),
+                    type: 'file-info',
+                });
+                readFileChunks(file, 32 * 1024, function (chunk) {
+                    console.log(chunk);
+                    conn.send({ chunk: chunk, type: 'file-chunk' });
+                });
+            });
+        });
     };
 
     return (
@@ -74,7 +138,12 @@ const Home = () => {
                     {filename ? filename : 'Browse'}
                 </div>
                 <div className={styles.content__size}>Size: {filesize}mb</div>
-                <div className={styles.content__upload}>Upload</div>
+                <div
+                    className={styles.content__upload}
+                    onClick={() => uploadFile()}
+                >
+                    Upload
+                </div>
                 <input
                     type="file"
                     id="file"
