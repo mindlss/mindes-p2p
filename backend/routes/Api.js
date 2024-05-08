@@ -1,24 +1,22 @@
 const express = require('express');
 const router = express.Router();
+const FileOffer = require('../database/schemas/FileOffer');
 
-router.get('/', function (req, res) {
-    res.send('Welcome to our API! /');
+router.get('/getFileInfo/:uuid', async function (req, res) {
+    try {
+        console.log(req.params.uuid);
+        const fileOffer = await FileOffer.findOne({
+            serviceId: req.params.uuid,
+        });
+        const fileData = {
+            filename: fileOffer.fileName,
+            filesize: fileOffer.fileSize,
+            uuid: fileOffer.uuid,
+        };
+        res.status(200).json(fileData);
+    } catch (error) {
+        res.status(400).json({ message: 'Offer not found' });
+    }
 });
-
-router.get('/admin', function (req, res) {
-    res.send('Welcome to our API! admin');
-});
-
-router.get('/delete', function (req, res) {
-    res.send('Welcome to our API! delete');
-});
-
-// id generator for file according to session
-
-// upload route to transmit file to client with client id
-
-// client id generator according to session
-
-// client download route with file id which tells sender to start sending file
 
 module.exports = router;

@@ -1,4 +1,3 @@
-import { useParams } from 'react-router-dom';
 import styles from '../styles/Share.module.scss';
 import { motion } from 'framer-motion';
 import toast, { Toaster } from 'react-hot-toast';
@@ -19,9 +18,9 @@ const copy = async (value) => {
     });
 };
 
-const Share = () => {
-    const { id } = useParams();
-    const link = `https://p2p.mindes.ru/${id}`;
+const Share = (props) => {
+    const { suid, uuid, filesize } = props;
+    const link = `https://p2p.mindes.ru/${suid}`;
     return (
         <motion.div
             className={styles.container}
@@ -45,8 +44,8 @@ const Share = () => {
                     },
                 }}
             />
-            <div className={styles.id} onClick={() => copy(id)}>
-                ID: {id}
+            <div className={styles.id} onClick={() => copy(uuid)}>
+                ID: {uuid}
             </div>
             <div className={styles.content}>
                 <div className={styles.content__header}>
@@ -58,7 +57,7 @@ const Share = () => {
                 >
                     {link}
                 </div>
-                <div className={styles.content__size}>Size: 345mb</div>
+                <div className={styles.content__size}>Size: {filesize}mb</div>
             </div>
         </motion.div>
     );

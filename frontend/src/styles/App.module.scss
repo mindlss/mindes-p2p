@@ -31,4 +31,14 @@ body {
     height: 21.5px;
     margin-left: 50%;
     transform: translateX(-50%);
+    z-index: 2001;
+
+    &__img {
+        height: 21.5px;
+        cursor: pointer;
+        transition: all linear 90ms;
+        &:hover {
+            filter: brightness(60%);
+        }
+    }
 }

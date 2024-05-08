@@ -6,11 +6,12 @@ const FileOfferSchema = new mongoose.Schema({
         required: true,
         unique: true,
     },
-    filename: {
+    serviceId: {
         type: mongoose.SchemaTypes.String,
         required: true,
+        unique: true,
     },
-    fileExtextension: {
+    fileName: {
         type: mongoose.SchemaTypes.String,
         required: true,
     },

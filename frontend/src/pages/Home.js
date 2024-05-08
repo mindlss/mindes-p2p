@@ -1,12 +1,16 @@
+/* eslint-disable no-unused-expressions */
 import { useRef, useState, useEffect } from 'react';
 import styles from '../styles/Home.module.scss';
 import { motion } from 'framer-motion';
 import WebSocket from 'websocket';
+import Share from './Share';
 
 import Peer from 'peerjs';
 
 const Home = () => {
     const ws = useRef(null);
+    const [suid, setSuid] = useState('');
+    const [uuid, setUuid] = useState('');
 
     useEffect(() => {
         ws.current = new WebSocket.w3cwebsocket('ws://localhost:3001');
@@ -17,9 +21,7 @@ const Home = () => {
 
         ws.current.onmessage = (event) => {
             console.log(`Received message: ${event.data}`);
-            if (event.data === 'Send file') {
-                console.log('Send file');
-            }
+            setSuid(event.data);
         };
 
         ws.current.onclose = () => {
@@ -55,7 +57,6 @@ const Home = () => {
             setFilesize(filesize);
         }
     };
-
     const readFileChunks = (file, chunkSize, callback) => {
         var offset = 0;
         var fr = new FileReader();
@@ -84,11 +85,7 @@ const Home = () => {
 
         console.log('button pressed');
 
-        const fileInfo = {
-            name: filename,
-            type: file.type,
-            size: file.size,
-        };
+        let fileInfo = {};
 
         const peer = new Peer({
             config: { iceServers: [{ urls: 'stun:localhost:3478' }] },
@@ -100,6 +97,15 @@ const Home = () => {
 
         peer.on('open', () => {
             console.log('Server ID:', peer.id);
+            setUuid(peer.id);
+            fileInfo = {
+                name: filename,
+                type: file.type,
+                size: file.size,
+                peerid: peer.id,
+            };
+
+            ws.current.send(JSON.stringify(fileInfo));
         });
         peer.on('connection', (conn) => {
             console.log('peer connected');
@@ -118,6 +124,12 @@ const Home = () => {
         });
     };
 
+    let ready = false;
+
+    if (suid.length === 6) {
+        ready = true;
+    }
+
     return (
         <motion.div
             className={styles.container}
@@ -126,6 +138,9 @@ const Home = () => {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2, ease: 'easeInOut' }}
         >
+            {ready ? (
+                <Share suid={suid} uuid={uuid} filesize={filesize} />
+            ) : null}
             <div className={styles.content}>
                 <div className={styles.content__header}>
                     Choose your <span className={styles.highlight}>file</span>{' '}

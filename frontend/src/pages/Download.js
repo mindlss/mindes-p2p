@@ -1,9 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useParams } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from '../styles/Download.module.scss';
 import { motion } from 'framer-motion';
 import toast, { Toaster } from 'react-hot-toast';
 import streamSaver from 'streamsaver';
+import NotFound from './NotFound';
 
 import Peer from 'peerjs';
 
@@ -27,6 +29,18 @@ const Download = () => {
     const { id } = useParams();
     const [downloading, setDownloading] = useState(false);
     const [progress, setProgress] = useState(0);
+    const [fileOffer, setFileOffer] = useState(null);
+    const [status, setStatus] = useState(null);
+
+    useEffect(() => {
+        fetch(`http://localhost:3001/api/getFileInfo/${id}`) // замените на ваш URL
+            .then((response) => {
+                setStatus(response.status);
+                return response.json();
+            })
+            .then((json) => setFileOffer(json))
+            .catch((error) => console.error(error));
+    }, []);
 
     const downloadFile = (e) => {
         setDownloading(true);
@@ -71,6 +85,17 @@ const Download = () => {
         });
     };
 
+    if (status !== 200 || !fileOffer) {
+        return <NotFound />;
+    }
+
+    var filesize = fileOffer.filesize / 1024 / 1024;
+    if (filesize < 10) {
+        filesize = filesize.toFixed(2);
+    } else {
+        filesize = Math.round(filesize);
+    }
+
     return (
         <motion.div
             className={styles.container}
@@ -94,12 +119,14 @@ const Download = () => {
                     },
                 }}
             />
-            <div className={styles.id} onClick={() => copy('123')}>
-                ID: 123
+            <div className={styles.id} onClick={() => copy(fileOffer.uuid)}>
+                ID: {fileOffer.uuid}
             </div>
             <div className={styles.content}>
-                <div className={styles.content__header}>test.txt</div>
-                <div className={styles.content__size}>Size: 345mb</div>
+                <div className={styles.content__header}>
+                    {fileOffer.filename}
+                </div>
+                <div className={styles.content__size}>Size: {filesize}mb</div>
                 <div
                     className={`${styles.content__download} ${
                         downloading ? styles.downloading : ''

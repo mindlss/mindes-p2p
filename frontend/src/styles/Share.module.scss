@@ -1,4 +1,8 @@
 .container {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    background-color: #000;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -7,6 +11,7 @@
     margin-left: 50%;
     transform: translateX(-50%);
     min-height: 400px;
+    z-index: 1001;
 }
 .toaster {
     font-family: 'MotivaSansRegular', sans-serif;
@@ -14,12 +19,13 @@
 }
 .id {
     position: absolute;
-    top: 56px;
+    top: 57px;
     left: -2px;
     color: #292929;
     font-family: 'MotivaSansRegular', sans-serif;
     font-size: 17px;
     transition: all linear 90ms;
+    cursor: pointer;
     &:hover {
         color: #007acc;
     }
@@ -45,6 +51,7 @@
         background-color: #161616;
         border-radius: 16px;
         transition: all linear 90ms;
+        cursor: pointer;
         &:hover {
             color: #007acc;
         }
