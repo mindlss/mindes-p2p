@@ -4,6 +4,7 @@ import styles from '../styles/Home.module.scss';
 import { motion } from 'framer-motion';
 import WebSocket from 'websocket';
 import Share from './Share';
+import * as mime from 'react-native-mime-types';
 
 import Peer from 'peerjs';
 
@@ -100,7 +101,7 @@ const Home = () => {
             setUuid(peer.id);
             fileInfo = {
                 name: filename,
-                type: file.type,
+                type: mime.lookup(filename),
                 size: file.size,
                 peerid: peer.id,
             };

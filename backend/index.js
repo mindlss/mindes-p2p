@@ -63,7 +63,7 @@ wss.on('connection', (ws) => {
     console.log('WS: Client connected');
 
     let uuid = '';
-    const serviceId = suid.rnd()
+    const serviceId = suid.rnd();
 
     ws.on('message', async (message) => {
         console.log(`WS: Received message: ${message}`);
@@ -80,7 +80,7 @@ wss.on('connection', (ws) => {
             });
             ws.send(serviceId);
         } catch (err) {
-            console.log(err);
+            console.log('WS:', err);
         }
     });
 
@@ -90,7 +90,7 @@ wss.on('connection', (ws) => {
             const fileOffer = await FileOffer.findOne({ uuid: uuid });
             await fileOffer.deleteOne();
         } catch (err) {
-            console.log(err);
+            console.log('WS:', err);
         }
     });
 });

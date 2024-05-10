@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-
 // Schema for file offers
 const FileOfferSchema = new mongoose.Schema(
     {

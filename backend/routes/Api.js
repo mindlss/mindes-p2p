@@ -5,7 +5,6 @@ const FileOffer = require('../database/schemas/FileOffer');
 // API routes
 router.get('/getFileInfo/:uuid', async function (req, res) {
     try {
-        console.log(req.params.uuid);
         const fileOffer = await FileOffer.findOne({
             serviceId: req.params.uuid,
         });
