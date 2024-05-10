@@ -15,12 +15,32 @@
         font-family: 'MotivaSansMedium', sans-serif;
         font-size: 32px;
         color: #fff;
+        @media (min-width: 0px) {
+            font-size: 28px;
+        }
+
+        @media (min-width: 376px) {
+            font-size: 30px;
+        }
+
+        @media (min-width: 400px) {
+            font-size: 32px;
+        }
     }
     &__size {
         margin-top: 8px;
         color: #292929;
         font-family: 'MotivaSansRegular', sans-serif;
         font-size: 17px;
+        @media (min-width: 0px) {
+            margin-top: 9px;
+            font-size: 16px;
+        }
+
+        @media (min-width: 376px) {
+            margin-top: 8px;
+            font-size: 17px;
+        }
     }
     &__upload {
         margin-top: 16px;
