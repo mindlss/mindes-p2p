@@ -25,7 +25,8 @@ body {
 }
 .logo {
     position: absolute;
-    padding-right: 915px;
+    max-width: 1000px;
+    width: calc(100vw - 50px);
     top: 26px;
     left: 0;
     height: 21.5px;

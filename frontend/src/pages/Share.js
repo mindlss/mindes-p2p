@@ -44,9 +44,12 @@ const Share = (props) => {
                     },
                 }}
             />
+            <div className={styles.background}></div>
+
             <div className={styles.id} onClick={() => copy(uuid)}>
                 ID: {uuid}
             </div>
+
             <div className={styles.content}>
                 <div className={styles.content__header}>
                     <span className={styles.highlight}>Link</span> to your file

@@ -44,20 +44,22 @@ const Download = () => {
 
     const downloadFile = (e) => {
         setDownloading(true);
+        console.log('121121');
         const peer = new Peer({
             config: { iceServers: [{ urls: 'stun:localhost:3478' }] },
         });
-
+        console.log('121');
         let fileSize = 0;
         let receivedBytes = 0;
         let fileName = '';
         let fileType = '';
 
         peer.on('open', () => {
-            const conn = peer.connect(id);
+            console.log('1');
+            const conn = peer.connect(fileOffer.uuid);
             conn.on('open', () => {
                 console.log('hi from peer!');
-                const fileStream = streamSaver.createWriteStream('lab1.docx');
+                const fileStream = streamSaver.createWriteStream(fileOffer.filename);
                 const writer = fileStream.getWriter();
                 conn.on('data', async (data) => {
                     if (data.type === 'file-info') {
