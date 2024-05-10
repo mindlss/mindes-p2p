@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const FileOffer = require('../database/schemas/FileOffer');
 
+// API routes
 router.get('/getFileInfo/:uuid', async function (req, res) {
     try {
         console.log(req.params.uuid);

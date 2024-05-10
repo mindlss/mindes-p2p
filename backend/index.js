@@ -16,6 +16,7 @@ const dgram = require('dgram');
 dotenv.config();
 
 require('./database');
+require('./database/gc');
 
 const domain =
     process.env.NODE_ENV === 'production' ? process.env.Domain : 'mysite.local';
@@ -43,7 +44,7 @@ const stunOptions = {
 const stunServer = stun.createServer(stunOptions);
 
 stunServer.on('error', (err) => {
-    console.error(err);
+    console.error('STUN server error', err);
 });
 
 const port = 3478;
@@ -59,15 +60,13 @@ const server = app.listen(process.env.APP_PORT, () =>
 const wss = new WebSocket.Server({ server });
 
 wss.on('connection', (ws) => {
-    console.log('Client connected');
+    console.log('WS: Client connected');
 
     let uuid = '';
     const serviceId = suid.rnd()
 
-    //ws.send('Send file');
-
     ws.on('message', async (message) => {
-        console.log(`Received message: ${message}`);
+        console.log(`WS: Received message: ${message}`);
         const data = JSON.parse(message);
 
         uuid = data.peerid;
@@ -86,7 +85,7 @@ wss.on('connection', (ws) => {
     });
 
     ws.on('close', async () => {
-        console.log('Client disconnected');
+        console.log('WS: Client disconnected');
         try {
             const fileOffer = await FileOffer.findOne({ uuid: uuid });
             await fileOffer.deleteOne();
