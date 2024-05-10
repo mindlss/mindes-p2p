@@ -5,6 +5,7 @@ const dotenv = require('dotenv');
 const WebSocket = require('ws');
 const FileOffer = require('./database/schemas/FileOffer');
 const ShortUniqueId = require('short-unique-id');
+const path = require('path');
 
 const suid = new ShortUniqueId({ length: 6 });
 
@@ -28,11 +29,14 @@ const jsonParser = bodyParser.json();
 app.use(cors());
 app.use(jsonParser);
 
-const appRoute = require('./routes/App');
 const apiRoute = require('./routes/Api');
 
-app.use('/', appRoute);
 app.use('/api/', apiRoute);
+app.use(express.static(path.join(__dirname+'/public')));
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname+'/public/index.html'));
+  });
 
 const dgramServer = dgram.createSocket('udp4');
 
@@ -47,14 +51,13 @@ stunServer.on('error', (err) => {
     console.error('STUN server error', err);
 });
 
-const port = 3478;
-dgramServer.bind(port, () => {
+dgramServer.bind(process.env.DGRAM_PORT, () => {
     const address = dgramServer.address();
     console.log(`STUN server listening on ${address.address}:${address.port}`);
 });
 
 const server = app.listen(process.env.APP_PORT, () =>
-    console.log(`${domain} started on port ${process.env.APP_PORT}`)
+    console.log(`Express.js server started on port ${process.env.APP_PORT}`)
 );
 
 const wss = new WebSocket.Server({ server });

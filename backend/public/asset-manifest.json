@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/static/css/main.9254325b.css",
+    "main.js": "/static/js/main.c7e71f1f.js",
+    "static/media/MotivaSansRegular.woff.ttf": "/static/media/MotivaSansRegular.woff.a576eb133febecaf8aef.ttf",
+    "static/media/MotivaSansMedium.woff.ttf": "/static/media/MotivaSansMedium.woff.36cb9727296a3ca8f8fd.ttf",
+    "static/media/logo.svg": "/static/media/logo.d2ecf20efb221e7b4fb9011bda040e11.svg",
+    "index.html": "/index.html"
+  },
+  "entrypoints": [
+    "static/css/main.9254325b.css",
+    "static/js/main.c7e71f1f.js"
+  ]
+}
