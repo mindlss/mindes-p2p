@@ -59,7 +59,9 @@ const Download = () => {
             const conn = peer.connect(fileOffer.uuid);
             conn.on('open', () => {
                 console.log('hi from peer!');
-                const fileStream = streamSaver.createWriteStream(fileOffer.filename);
+                const fileStream = streamSaver.createWriteStream(
+                    fileOffer.filename
+                );
                 const writer = fileStream.getWriter();
                 conn.on('data', async (data) => {
                     if (data.type === 'file-info') {
