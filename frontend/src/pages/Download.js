@@ -49,13 +49,10 @@ const Download = () => {
         });
         let fileSize = 0;
         let receivedBytes = 0;
-        let fileName = '';
-        let fileType = '';
 
         peer.on('open', () => {
             const conn = peer.connect(fileOffer.uuid);
             conn.on('open', () => {
-                console.log('hi from peer!');
                 const fileStream = streamSaver.createWriteStream(
                     fileOffer.filename
                 );
@@ -64,13 +61,7 @@ const Download = () => {
                     if (data.type === 'file-info') {
                         const fileInfo = JSON.parse(data.data);
                         fileSize = fileInfo.size;
-                        fileName = fileInfo.name;
-                        fileType = fileInfo.type;
                         receivedBytes = 0;
-
-                        console.log(fileSize);
-                        console.log(fileName);
-                        console.log(fileType);
                     } else if (data.type === 'file-chunk') {
                         await writer.write(data.chunk);
                         receivedBytes += data.chunk.byteLength;

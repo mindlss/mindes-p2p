@@ -84,8 +84,6 @@ const Home = () => {
     const uploadFile = (e) => {
         if (file === null) return;
 
-        console.log('button pressed');
-
         let fileInfo = {};
 
         const peer = new Peer({
