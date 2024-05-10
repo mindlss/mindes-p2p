@@ -33,7 +33,7 @@ const Download = () => {
     const [status, setStatus] = useState(null);
 
     useEffect(() => {
-        fetch(`http://localhost:3001/api/getFileInfo/${id}`) // замените на ваш URL
+        fetch(`/api/getFileInfo/${id}`) // замените на ваш URL
             .then((response) => {
                 setStatus(response.status);
                 return response.json();
@@ -45,7 +45,7 @@ const Download = () => {
     const downloadFile = (e) => {
         setDownloading(true);
         const peer = new Peer({
-            config: { iceServers: [{ urls: 'stun:localhost:3478' }] },
+            config: { iceServers: [{ urls: 'stun:stun.mindes.ru' }] },
         });
         let fileSize = 0;
         let receivedBytes = 0;

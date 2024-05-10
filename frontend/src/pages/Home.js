@@ -14,7 +14,7 @@ const Home = () => {
     const [uuid, setUuid] = useState('');
 
     useEffect(() => {
-        ws.current = new WebSocket.w3cwebsocket('ws://localhost:3001');
+        ws.current = new WebSocket.w3cwebsocket('ws://ws.mindes.ru');
 
         ws.current.onopen = () => {
             console.log('Connected to server');
@@ -87,7 +87,7 @@ const Home = () => {
         let fileInfo = {};
 
         const peer = new Peer({
-            config: { iceServers: [{ urls: 'stun:localhost:3478' }] },
+            config: { iceServers: [{ urls: 'stun:stun.mindes.ru' }] },
         });
 
         peer.on('error', (err) => {
