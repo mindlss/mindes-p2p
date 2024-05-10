@@ -14,7 +14,7 @@ const Home = () => {
     const [uuid, setUuid] = useState('');
 
     useEffect(() => {
-        ws.current = new WebSocket.w3cwebsocket('ws://ws.mindes.ru');
+        ws.current = new WebSocket.w3cwebsocket('wss://ws.mindes.ru');
 
         ws.current.onopen = () => {
             console.log('Connected to server');
